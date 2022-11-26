@@ -1,5 +1,5 @@
-const textoPalavras = "./data/br-sem-acentos.txt";
-// const textoPalavras = "./data/teste.txt";
+// const textoPalavras = "./data/br-sem-acentos.txt";
+const textoPalavras = "./data/teste.txt";
 const divPlacar = document.getElementById("placar");
 const divjogoForca = document.getElementById("jogoForca");
 const divEscolhePalavra = document.getElementById("escolhePalavra");
@@ -22,10 +22,10 @@ let scoreJogador1 = 0;
 let scoreJogador2 = 0;
 
 const numJogadores = Number(localStorage.getItem("jogadores"));
-inicializar();
+getPalavras();
 
 function inicializar() {
-    getPalavras();
+    divjogoForca.style.display = 'none';
     criaPlacar();
     if (numJogadores === 1) {
         // modo 1 jogador
@@ -36,13 +36,13 @@ function inicializar() {
         divEscolhePalavra.style.display = 'block';
         preencheTurnoPergunta();
     }
-    divjogoForca.style.display = 'none';
 }
 
 async function getPalavras() {
     const response = await fetch(textoPalavras);
     const data = await response.text();
     palavras = data.split('\n');
+    inicializar();
 }
 
 function criaPlacar() {
@@ -112,14 +112,14 @@ function escolhePalavra2Jog() {
         palavraSelecionada();
         // TODO mandar palavra para txt caso não esteja na lista
         // if (!palavras.includes(palavra)) {
-            //     palavras.push(palavra);
-            // }
-        } else {
-            const desisto = "Desisto -.-"
-            if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!') {
-                txtPalavra.placeholder = desisto;
-            } else if (txtPalavra.placeholder != desisto) {
-                txtPalavra.placeholder += '!';
+        //     palavras.push(palavra);
+        // }
+    } else {
+        const desisto = "Desisto -.-"
+        if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!') {
+            txtPalavra.placeholder = desisto;
+        } else if (txtPalavra.placeholder != desisto) {
+            txtPalavra.placeholder += '!';
         }
     }
 }
@@ -135,7 +135,7 @@ function palavraSelecionada() {
     divjogoForca.style.display = 'block';
 
     txtPalavra.value = "";
-    
+
     console.log(palavra); // apagar depois
 
     // preenche as lacunas da palavra
@@ -149,9 +149,9 @@ function palavraSelecionada() {
     escreveBotoes();
 }
 
-function escreveBotoes () {
+function escreveBotoes() {
     //escreve botões
-    divLetras.innerHTML="";
+    divLetras.innerHTML = "";
     letras.forEach(letra => {
         const div = document.createElement('div');
         div.className = 'col'
@@ -161,20 +161,28 @@ function escreveBotoes () {
         botao.textContent = letra;
         botao.className = 'btn btn-primary'
         // botao.value = letra;
-        botao.onclick = () => {clickLetra(letra);}
+        botao.onclick = () => { clickLetra(letra); }
         div.appendChild(botao);
     });
 }
 
-function clickLetra (letra) {
+function clickLetra(letra) {
     const botao = document.getElementById('btn' + letra);
     botao.disabled = true;
     botao.className = botao.className.replace("primary", "danger");
     if (palavra.includes(letra)) {
-        
+        // while (palavra.includes(letra)) {
+            const index = palavra.search(letra);
+            console.log(index);
+            lacunas = replaceAt(lacunas, index, letra);
+        // }
     }
 }
 
-function replaceAt(index, char) {
-    
+function replaceAt(str, index, substituicao) {
+    let novaStr = str.substring(0, index)
+                + substituicao
+                + str.substring(index + 1);
+    console.log(novaStr);
+    return novaStr;
 }
