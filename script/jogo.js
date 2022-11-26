@@ -6,6 +6,7 @@ const divEscolhePalavra = document.getElementById("escolhePalavra");
 const divLetras = document.getElementById("letras");
 const h1PalavraJogo = document.getElementById("palavraJogo");
 const spanTurnoPergunta = document.getElementById("turnoPergunta");
+const spanTurnoResposta = document.getElementById("turnoResposta");
 const txtPalavra = document.getElementById("palavra");
 const alfabeto = 'ABCDEFGHIJKLMNOPQRSTUWXYZ'.split('');
 let letras = alfabeto;
@@ -15,6 +16,8 @@ let lacunas = '';
 let contTurnos = 0;
 const jogador1 = localStorage.getItem('jogador1');
 const jogador2 = localStorage.getItem('jogador2');
+let spanPontosJogador1, spanPontosJogador2;
+// TODO: verificar se tem a pontuação no localStorage e se tiver, puxar o valor
 let scoreJogador1 = 0;
 let scoreJogador2 = 0;
 
@@ -43,10 +46,9 @@ async function getPalavras() {
 }
 
 function criaPlacar() {
-    criaElementoPlacar(jogador1);
-
+    spanPontosJogador1 = criaElementoPlacar(jogador1);
     if (numJogadores === 2) {
-        criaElementoPlacar(jogador2);
+        spanPontosJogador2 = criaElementoPlacar(jogador2);
         const h1Jogador1 = document.getElementById('h1' + jogador1);
         h1Jogador1.className += ' text-start';
         const h1Jogador2 = document.getElementById('h1' + jogador2);
@@ -74,22 +76,39 @@ function criaElementoPlacar(nome) {
     spanPontosJogador.id = 'pontos' + nome;
     spanPontosJogador.textContent = 0;
     h1.appendChild(spanPontosJogador);
+    return spanPontosJogador;
 }
 
 function preencheTurnoPergunta() {
     let turnoPergunta;
+    let turnoResposta;
     if (contTurnos % 2 === 0) {
         turnoPergunta = jogador1;
+        turnoResposta = jogador2;
     } else {
         turnoPergunta = jogador2;
+        turnoResposta = jogador1;
     }
     spanTurnoPergunta.textContent = turnoPergunta;
+    spanTurnoResposta.textContent = turnoResposta;
 }
+
+function trocaVisibilidadePalavra() {
+    const icon = document.getElementById('btnShowIcon');
+    if (txtPalavra.type === 'password') {
+        txtPalavra.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash'
+    } else {
+        txtPalavra.type = 'password';
+        icon.className = 'fa-solid fa-eye'
+    }
+}
+
 
 function escolhePalavra2Jog() {
     const palavraEscolhida = txtPalavra.value;
     if (palavraEscolhida) {
-        palavra = palavraEscolhida.toLowerCase();
+        palavra = palavraEscolhida.toUpperCase();
         palavraSelecionada();
         // TODO mandar palavra para txt caso não esteja na lista
         // if (!palavras.includes(palavra)) {
@@ -97,7 +116,7 @@ function escolhePalavra2Jog() {
             // }
         } else {
             const desisto = "Desisto -.-"
-            if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!') {
+            if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!') {
                 txtPalavra.placeholder = desisto;
             } else if (txtPalavra.placeholder != desisto) {
                 txtPalavra.placeholder += '!';
@@ -107,7 +126,7 @@ function escolhePalavra2Jog() {
 
 function escolhePalavra() {
     const rndIndex = Math.floor(Math.random() * palavras.length);
-    palavra = palavras[rndIndex];
+    palavra = palavras[rndIndex].toUpperCase();
     palavraSelecionada();
 }
 
@@ -126,7 +145,6 @@ function palavraSelecionada() {
         lacunas += "_"
     }
     h1PalavraJogo.textContent = lacunas;
-    console.log(lacunas) // apagar depois
 
     escreveBotoes();
 }
@@ -149,5 +167,8 @@ function escreveBotoes () {
 }
 
 function clickLetra (letra) {
-    console.log(letra);
+    const botao = document.getElementById('btn' + letra);
+    botao.disabled = true;
+    botao.className = botao.className.replace("primary", "danger");
+    
 }
