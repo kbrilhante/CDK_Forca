@@ -88,7 +88,11 @@ function escolhePalavra2Jog() {
         // }
         console.log(palavra)
     } else {
-        txtPalavra.placeholder += '!'
+        if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!') {
+            txtPalavra.placeholder = 'Desisto';
+        } else if (txtPalavra.placeholder != 'Desisto') {
+            txtPalavra.placeholder += '!'
+        }
     }
 }
 
