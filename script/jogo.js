@@ -1,5 +1,5 @@
-// const textoPalavras = "./data/br-sem-acentos.txt";
-const textoPalavras = "./data/teste.txt";
+const textoPalavras = "./data/br-sem-acentos.txt";
+// const textoPalavras = "./data/teste.txt";
 const divPlacar = document.getElementById("placar");
 const divjogoForca = document.getElementById("jogoForca");
 const divEscolhePalavra = document.getElementById("escolhePalavra");
@@ -16,7 +16,6 @@ let lacunas = '';
 let contTurnos = 0;
 const jogador1 = localStorage.getItem('jogador1');
 const jogador2 = localStorage.getItem('jogador2');
-let spanPontosJogador1, spanPontosJogador2;
 // TODO: verificar se tem a pontuação no localStorage e se tiver, puxar o valor
 let scoreJogador1 = 0;
 let scoreJogador2 = 0;
@@ -31,6 +30,7 @@ function inicializar() {
         // modo 1 jogador
         divEscolhePalavra.style.display = 'none';
         escolhePalavra();
+        document.getElementById('h2TurnoResposta').style.display = 'none';
     } else {
         // modo 2 jogadores
         divEscolhePalavra.style.display = 'block';
@@ -41,19 +41,25 @@ function inicializar() {
 async function getPalavras() {
     const response = await fetch(textoPalavras);
     const data = await response.text();
-    palavras = data.split('\n');
+    const lista = data.split('\n');
+    lista.forEach(item => {
+        let novaPalavra = item.trim()
+        novaPalavra = novaPalavra.toUpperCase();
+        palavras.push(novaPalavra)
+    });
     inicializar();
 }
 
 function criaPlacar() {
-    spanPontosJogador1 = criaElementoPlacar(jogador1);
+    criaElementoPlacar(jogador1);
     if (numJogadores === 2) {
-        spanPontosJogador2 = criaElementoPlacar(jogador2);
+        criaElementoPlacar(jogador2);
         const h1Jogador1 = document.getElementById('h1' + jogador1);
         h1Jogador1.className += ' text-start';
         const h1Jogador2 = document.getElementById('h1' + jogador2);
         h1Jogador2.className += ' text-end';
     }
+    preenchePlacar();
 }
 
 function criaElementoPlacar(nome) {
@@ -76,12 +82,15 @@ function criaElementoPlacar(nome) {
     spanPontosJogador.id = 'pontos' + nome;
     spanPontosJogador.textContent = 0;
     h1.appendChild(spanPontosJogador);
-    return spanPontosJogador;
+}
+
+function preenchePlacar(nome) {
+    const spanPontosJogador = document.getElementById('pontos' + nome);
+    // spanPontosJogador.textContent = "";
 }
 
 function preencheTurnoPergunta() {
-    let turnoPergunta;
-    let turnoResposta;
+    let turnoPergunta, turnoResposta;
     if (contTurnos % 2 === 0) {
         turnoPergunta = jogador1;
         turnoResposta = jogador2;
@@ -126,7 +135,7 @@ function escolhePalavra2Jog() {
 
 function escolhePalavra() {
     const rndIndex = Math.floor(Math.random() * palavras.length);
-    palavra = palavras[rndIndex].toUpperCase();
+    palavra = palavras[rndIndex];
     palavraSelecionada();
 }
 
@@ -171,18 +180,30 @@ function clickLetra(letra) {
     botao.disabled = true;
     botao.className = botao.className.replace("primary", "danger");
     if (palavra.includes(letra)) {
-        // while (palavra.includes(letra)) {
-            const index = palavra.search(letra);
-            console.log(index);
+        let indexes = [];
+        for (let i = 0; i < palavra.length; i++) {
+            if (palavra[i] === letra) {
+                indexes.push(i);
+            }
+        }
+        console.log(indexes);
+        indexes.forEach(index => {
             lacunas = replaceAt(lacunas, index, letra);
-        // }
+        });
+        h1PalavraJogo.textContent = lacunas;
+        if (lacunas === palavra) {
+            // jogador respondendo marca ponto
+            if (numJogadores === 1) {
+                scoreJogador1++;
+                
+            }
+        }
     }
 }
 
 function replaceAt(str, index, substituicao) {
     let novaStr = str.substring(0, index)
-                + substituicao
-                + str.substring(index + 1);
-    console.log(novaStr);
+        + substituicao
+        + str.substring(index + 1);
     return novaStr;
 }
