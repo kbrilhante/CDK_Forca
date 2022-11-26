@@ -1,5 +1,5 @@
-// const textoPalavras = "./data/br-sem-acentos.txt";
-const textoPalavras = "./data/teste.txt";
+const textoPalavras = "./data/br-sem-acentos.txt";
+// const textoPalavras = "./data/teste.txt";
 const imgDir = "./img/"
 const divPlacar = document.getElementById("placar");
 const divjogoForca = document.getElementById("jogoForca");
