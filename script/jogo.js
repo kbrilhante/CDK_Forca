@@ -1,15 +1,17 @@
-// const textoPalavras = "./data/br-sem-acentos.txt";
-const textoPalavras = "./data/teste.txt";
+const textoPalavras = "./data/br-sem-acentos.txt";
+// const textoPalavras = "./data/teste.txt";
 const divPlacar = document.getElementById("placar");
 const divEscolhePalavra = document.getElementById("escolhePalavra");
 const spanTurnoPergunta = document.getElementById("turnoPergunta");
 const txtPalavra = document.getElementById("palavra");
-let letras = 'A B C D E F G H I J K L M N O P Q R S T U V X Z'.split(' ');
+let letras = 'ABCDEFGHIJKLMNOPQRSTUWXYZ'.split('');
 let palavras = [];
 let palavra = '';
 let contTurnos = 0;
 const jogador1 = localStorage.getItem('jogador1');
 const jogador2 = localStorage.getItem('jogador2');
+let scoreJogador1 = 0;
+let scoreJogador2 = 0;
 
 const numJogadores = Number(localStorage.getItem("jogadores"));
 inicializar();
@@ -82,18 +84,17 @@ function escolhePalavra2Jog() {
     const palavraEscolhida = txtPalavra.value;
     if (palavraEscolhida) {
         palavra = palavraEscolhida.toLowerCase();
-        // TODO mandar palavra para txt
+        palavraSelecionada();
+        // TODO mandar palavra para txt caso não esteja na lista
         // if (!palavras.includes(palavra)) {
-        //     palavras.push(palavra);
-        // }
-
-        // console.log(palavra)
-    } else {
-        const desisto = "Desisto -.-"
-        if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!') {
-            txtPalavra.placeholder = desisto;
-        } else if (txtPalavra.placeholder != desisto) {
-            txtPalavra.placeholder += '!'
+            //     palavras.push(palavra);
+            // }
+        } else {
+            const desisto = "Desisto -.-"
+            if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!') {
+                txtPalavra.placeholder = desisto;
+            } else if (txtPalavra.placeholder != desisto) {
+                txtPalavra.placeholder += '!';
         }
     }
 }
@@ -101,5 +102,14 @@ function escolhePalavra2Jog() {
 function escolhePalavra() {
     const rndIndex = Math.floor(Math.random() * palavras.length);
     palavra = palavras[rndIndex];
-    // console.log(palavra)
+    palavraSelecionada();
+}
+
+function palavraSelecionada() {
+    divEscolhePalavra.style.display = 'none';
+    txtPalavra.value = "";
+    
+    console.log(palavra); // apagar depois
+
+    
 }
