@@ -1,5 +1,6 @@
 // const textoPalavras = "./data/br-sem-acentos.txt";
 const textoPalavras = "./data/teste.txt";
+const imgDir = "./img/"
 const divPlacar = document.getElementById("placar");
 const divjogoForca = document.getElementById("jogoForca");
 const divEscolhePalavra = document.getElementById("escolhePalavra");
@@ -9,12 +10,14 @@ const h1PalavraJogo = document.getElementById("palavraJogo");
 const spanTurnoPergunta = document.getElementById("turnoPergunta");
 const spanTurnoResposta = document.getElementById("turnoResposta");
 const txtPalavra = document.getElementById("palavra");
+const imgForca = document.getElementById("imgForca");
 const alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 let letras = alfabeto;
 let palavras = [];
 let palavra = '';
 let lacunas = '';
 let contTurnos = 0;
+let chances = 10;
 const jogador1 = localStorage.getItem('jogador1');
 const jogador2 = localStorage.getItem('jogador2');
 // TODO: verificar se tem a pontuação no localStorage e se tiver, puxar o valor
@@ -200,14 +203,19 @@ function clickLetra(letra) {
                     scoreJogador1++;
                 }
                 localStorage.setItem('scoreJogador2', scoreJogador2);
-                contTurnos++;
             }
+            contTurnos++;
             localStorage.setItem('scoreJogador1', scoreJogador1);
             preenchePlacar();
             divContinuar.style.display = 'block';
             divLetras.style.display = 'none';
+            // fim do turno com vitória
         }
 
+    } else {
+        chances--;
+        imgForca.src = imgDir + chances + '.png';
+        contTurnos++;
     }
 }
 
@@ -222,6 +230,8 @@ function proximoTurno() {
     divjogoForca.style.display = 'none';
     divContinuar.style.display = 'none';
     divLetras.style.display = 'flex';
+    chances = 10;
+    imgForca.src = imgDir + chances + '.png';
     if (numJogadores === 1) {
         // modo 1 jogador
         divEscolhePalavra.style.display = 'none';
