@@ -97,7 +97,7 @@ function escolhePalavra2Jog() {
             // }
         } else {
             const desisto = "Desisto -.-"
-            if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!') {
+            if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!') {
                 txtPalavra.placeholder = desisto;
             } else if (txtPalavra.placeholder != desisto) {
                 txtPalavra.placeholder += '!';
@@ -142,6 +142,12 @@ function escreveBotoes () {
         botao.id = "btn" + letra;
         botao.textContent = letra;
         botao.className = 'btn btn-primary'
+        // botao.value = letra;
+        botao.onclick = () => {clickLetra(letra);}
         div.appendChild(botao);
     });
+}
+
+function clickLetra (letra) {
+    console.log(letra);
 }
