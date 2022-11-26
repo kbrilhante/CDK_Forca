@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Font Awesome -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.css' integrity='sha512-FA9cIbtlP61W0PRtX36P6CGRy0vZs0C2Uw26Q1cMmj3xwhftftymr0sj8/YeezDnRwL9wtWw8ZwtCiTDXlXGjQ==' crossorigin='anonymous'/>
+
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -27,9 +30,16 @@
                     <span id="turnoPergunta"></span>
                     escolhe
                 </h2>
-                <div class="col">
+                <div class="col text-start">
                     <label for="palavra">Escolha sua palavra</label>
-                    <input type="text" name="palavra" id="palavra" placeholder="Digite aqui" class="form-control">
+                    <div class="row ps-2">
+                        <input type="password" name="palavra" id="palavra" placeholder="Digite aqui" class="form-control col" readonly onfocus="this.removeAttribute('readonly');">
+                        <div class="col-auto">
+                            <button class="btn btn-outline-dark" onclick="trocaVisibilidadePalavra()">
+                                <i id="btnShowIcon" class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-auto mx-auto">
                     <button class="btn btn-success" onclick="escolhePalavra2Jog()">Pronto</button>
@@ -42,6 +52,10 @@
 
         <div id="jogoForca" class="col text-bg-info rounded-3 g-3 px-3 pb-3 mx-auto">
             <div class="row row-cols-1 g-3">
+                <h2 class="col">
+                    <span id="turnoResposta"></span>
+                    responde
+                </h2>
                 <h1 id="palavraJogo" class="col fs-1 pt-5"></h1>
                 <div class="col-auto mx-auto">
                     <div id="letras" class="row g-3">
