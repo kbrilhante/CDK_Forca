@@ -86,11 +86,13 @@ function escolhePalavra2Jog() {
         // if (!palavras.includes(palavra)) {
         //     palavras.push(palavra);
         // }
-        console.log(palavra)
+
+        // console.log(palavra)
     } else {
-        if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!') {
-            txtPalavra.placeholder = 'Desisto';
-        } else if (txtPalavra.placeholder != 'Desisto') {
+        const desisto = "Desisto -.-"
+        if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!') {
+            txtPalavra.placeholder = desisto;
+        } else if (txtPalavra.placeholder != desisto) {
             txtPalavra.placeholder += '!'
         }
     }
@@ -99,5 +101,5 @@ function escolhePalavra2Jog() {
 function escolhePalavra() {
     const rndIndex = Math.floor(Math.random() * palavras.length);
     palavra = palavras[rndIndex];
-    console.log(palavra)
+    // console.log(palavra)
 }
