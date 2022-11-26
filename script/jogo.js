@@ -202,20 +202,29 @@ function clickLetra(letra) {
                 } else {
                     scoreJogador1++;
                 }
-                localStorage.setItem('scoreJogador2', scoreJogador2);
             }
-            contTurnos++;
-            localStorage.setItem('scoreJogador1', scoreJogador1);
-            preenchePlacar();
-            divContinuar.style.display = 'block';
-            divLetras.style.display = 'none';
+            finalizaTurno();
             // fim do turno com vitória
         }
-
     } else {
         chances--;
         imgForca.src = imgDir + chances + '.png';
-        contTurnos++;
+        if (chances <= 0) {
+            // turno perdido. 1p: perde ponto; 2p: ponto para o jogador perguntando
+            if (numJogadores === 1) {
+                if (scoreJogador1 > 0) {
+                    scoreJogador1--;
+                }
+            } else {
+                if (contTurnos % 2 === 0) {
+                    scoreJogador1++;
+                } else {
+                    scoreJogador2++;
+                }
+            }
+            h1PalavraJogo.textContent = palavra;
+            finalizaTurno();
+        }
     }
 }
 
@@ -241,5 +250,16 @@ function proximoTurno() {
         // modo 2 jogadores
         divEscolhePalavra.style.display = 'block';
         preencheTurnoPergunta();
+    }
+}
+
+function finalizaTurno() {
+    preenchePlacar();
+    divContinuar.style.display = 'block';
+    divLetras.style.display = 'none';
+    contTurnos++;
+    localStorage.setItem('scoreJogador1', scoreJogador1);
+    if (numJogadores === 2) {
+        localStorage.setItem('scoreJogador2', scoreJogador2)
     }
 }
