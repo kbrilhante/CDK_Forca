@@ -3,11 +3,15 @@ const textoPalavras = "./data/br-sem-acentos.txt";
 const divPlacar = document.getElementById("placar");
 const divjogoForca = document.getElementById("jogoForca");
 const divEscolhePalavra = document.getElementById("escolhePalavra");
+const divLetras = document.getElementById("letras");
+const h1PalavraJogo = document.getElementById("palavraJogo");
 const spanTurnoPergunta = document.getElementById("turnoPergunta");
 const txtPalavra = document.getElementById("palavra");
-let letras = 'ABCDEFGHIJKLMNOPQRSTUWXYZ'.split('');
+const alfabeto = 'ABCDEFGHIJKLMNOPQRSTUWXYZ'.split('');
+let letras = alfabeto;
 let palavras = [];
 let palavra = '';
+let lacunas = '';
 let contTurnos = 0;
 const jogador1 = localStorage.getItem('jogador1');
 const jogador2 = localStorage.getItem('jogador2');
@@ -115,5 +119,29 @@ function palavraSelecionada() {
     
     console.log(palavra); // apagar depois
 
+    // preenche as lacunas da palavra
+    const tamanhoPalavra = palavra.length;
+    lacunas = "";
+    for (let i = 1; i <= tamanhoPalavra; i++) {
+        lacunas += "_"
+    }
+    h1PalavraJogo.textContent = lacunas;
+    console.log(lacunas) // apagar depois
 
+    escreveBotoes();
+}
+
+function escreveBotoes () {
+    //escreve botões
+    divLetras.innerHTML="";
+    letras.forEach(letra => {
+        const div = document.createElement('div');
+        div.className = 'col'
+        divLetras.appendChild(div);
+        const botao = document.createElement('button');
+        botao.id = "btn" + letra;
+        botao.textContent = letra;
+        botao.className = 'btn btn-primary'
+        div.appendChild(botao);
+    });
 }
