@@ -170,5 +170,11 @@ function clickLetra (letra) {
     const botao = document.getElementById('btn' + letra);
     botao.disabled = true;
     botao.className = botao.className.replace("primary", "danger");
+    if (palavra.includes(letra)) {
+        
+    }
+}
+
+function replaceAt(index, char) {
     
 }
