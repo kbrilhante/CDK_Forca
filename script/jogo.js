@@ -1,6 +1,7 @@
 const textoPalavras = "./data/br-sem-acentos.txt";
 // const textoPalavras = "./data/teste.txt";
 const divPlacar = document.getElementById("placar");
+const divjogoForca = document.getElementById("jogoForca");
 const divEscolhePalavra = document.getElementById("escolhePalavra");
 const spanTurnoPergunta = document.getElementById("turnoPergunta");
 const txtPalavra = document.getElementById("palavra");
@@ -28,6 +29,7 @@ function inicializar() {
         divEscolhePalavra.style.display = 'block';
         preencheTurnoPergunta();
     }
+    // divjogoForca.style.display = 'none';
 }
 
 async function getPalavras() {
@@ -107,9 +109,11 @@ function escolhePalavra() {
 
 function palavraSelecionada() {
     divEscolhePalavra.style.display = 'none';
+    divjogoForca.style.display = 'block';
+
     txtPalavra.value = "";
     
     console.log(palavra); // apagar depois
 
-    
+
 }
