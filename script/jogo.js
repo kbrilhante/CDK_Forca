@@ -1,14 +1,15 @@
-const textoPalavras = "./data/br-sem-acentos.txt";
-// const textoPalavras = "./data/teste.txt";
+// const textoPalavras = "./data/br-sem-acentos.txt";
+const textoPalavras = "./data/teste.txt";
 const divPlacar = document.getElementById("placar");
 const divjogoForca = document.getElementById("jogoForca");
 const divEscolhePalavra = document.getElementById("escolhePalavra");
 const divLetras = document.getElementById("letras");
+const divContinuar = document.getElementById("divContinuar");
 const h1PalavraJogo = document.getElementById("palavraJogo");
 const spanTurnoPergunta = document.getElementById("turnoPergunta");
 const spanTurnoResposta = document.getElementById("turnoResposta");
 const txtPalavra = document.getElementById("palavra");
-const alfabeto = 'ABCDEFGHIJKLMNOPQRSTUWXYZ'.split('');
+const alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 let letras = alfabeto;
 let palavras = [];
 let palavra = '';
@@ -24,18 +25,8 @@ const numJogadores = Number(localStorage.getItem("jogadores"));
 getPalavras();
 
 function inicializar() {
-    divjogoForca.style.display = 'none';
     criaPlacar();
-    if (numJogadores === 1) {
-        // modo 1 jogador
-        divEscolhePalavra.style.display = 'none';
-        escolhePalavra();
-        document.getElementById('h2TurnoResposta').style.display = 'none';
-    } else {
-        // modo 2 jogadores
-        divEscolhePalavra.style.display = 'block';
-        preencheTurnoPergunta();
-    }
+    proximoTurno();
 }
 
 async function getPalavras() {
@@ -52,8 +43,16 @@ async function getPalavras() {
 
 function criaPlacar() {
     criaElementoPlacar(jogador1);
+    scoreJogador1 = localStorage.getItem("scoreJogador1");
+    if (!scoreJogador1) {
+        scoreJogador1 = 0;
+    }
     if (numJogadores === 2) {
         criaElementoPlacar(jogador2);
+        scoreJogador2 = localStorage.getItem("scoreJogador2");
+        if(!scoreJogador2) {
+            scoreJogador2 = 0;
+        }
         const h1Jogador1 = document.getElementById('h1' + jogador1);
         h1Jogador1.className += ' text-start';
         const h1Jogador2 = document.getElementById('h1' + jogador2);
@@ -80,13 +79,15 @@ function criaElementoPlacar(nome) {
     h1.appendChild(spanDoisPontos);
     const spanPontosJogador = document.createElement('span');
     spanPontosJogador.id = 'pontos' + nome;
-    spanPontosJogador.textContent = 0;
+    spanPontosJogador.textContent = '';
     h1.appendChild(spanPontosJogador);
 }
 
-function preenchePlacar(nome) {
-    const spanPontosJogador = document.getElementById('pontos' + nome);
-    // spanPontosJogador.textContent = "";
+function preenchePlacar() {
+    document.getElementById('pontos' + jogador1).textContent = scoreJogador1;
+    if (numJogadores === 2) {
+        document.getElementById('pontos' + jogador2).textContent = scoreJogador2;
+    }
 }
 
 function preencheTurnoPergunta() {
@@ -142,9 +143,7 @@ function escolhePalavra() {
 function palavraSelecionada() {
     divEscolhePalavra.style.display = 'none';
     divjogoForca.style.display = 'block';
-
     txtPalavra.value = "";
-
     console.log(palavra); // apagar depois
 
     // preenche as lacunas da palavra
@@ -154,7 +153,6 @@ function palavraSelecionada() {
         lacunas += "_"
     }
     h1PalavraJogo.textContent = lacunas;
-
     escreveBotoes();
 }
 
@@ -195,9 +193,21 @@ function clickLetra(letra) {
             // jogador respondendo marca ponto
             if (numJogadores === 1) {
                 scoreJogador1++;
-                
+            } else {
+                if (contTurnos % 2 === 0) {
+                    scoreJogador2++;
+                } else {
+                    scoreJogador1++;
+                }
+                localStorage.setItem('scoreJogador2', scoreJogador2);
+                contTurnos++;
             }
+            localStorage.setItem('scoreJogador1', scoreJogador1);
+            preenchePlacar();
+            divContinuar.style.display = 'block';
+            divLetras.style.display = 'none';
         }
+
     }
 }
 
@@ -206,4 +216,20 @@ function replaceAt(str, index, substituicao) {
         + substituicao
         + str.substring(index + 1);
     return novaStr;
+}
+
+function proximoTurno() {
+    divjogoForca.style.display = 'none';
+    divContinuar.style.display = 'none';
+    divLetras.style.display = 'flex';
+    if (numJogadores === 1) {
+        // modo 1 jogador
+        divEscolhePalavra.style.display = 'none';
+        escolhePalavra();
+        document.getElementById('h2TurnoResposta').style.display = 'none';
+    } else {
+        // modo 2 jogadores
+        divEscolhePalavra.style.display = 'block';
+        preencheTurnoPergunta();
+    }
 }
