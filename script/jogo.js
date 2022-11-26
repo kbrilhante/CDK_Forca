@@ -29,7 +29,7 @@ function inicializar() {
         divEscolhePalavra.style.display = 'block';
         preencheTurnoPergunta();
     }
-    // divjogoForca.style.display = 'none';
+    divjogoForca.style.display = 'none';
 }
 
 async function getPalavras() {
