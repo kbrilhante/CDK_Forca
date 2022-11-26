@@ -203,6 +203,7 @@ function clickLetra(letra) {
                     scoreJogador1++;
                 }
             }
+            imgForca.src = imgDir + "yay.png";
             finalizaTurno();
             // fim do turno com vitória
         }
