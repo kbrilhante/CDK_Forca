@@ -20,7 +20,6 @@ let contTurnos = 0;
 let chances = 10;
 const jogador1 = localStorage.getItem('jogador1');
 const jogador2 = localStorage.getItem('jogador2');
-// TODO: verificar se tem a pontuação no localStorage e se tiver, puxar o valor
 let scoreJogador1 = 0;
 let scoreJogador2 = 0;
 
@@ -28,6 +27,11 @@ const numJogadores = Number(localStorage.getItem("jogadores"));
 getPalavras();
 
 function inicializar() {
+    const turnos = localStorage.getItem('contTurnos');
+    if (turnos) {
+        contTurnos = turnos;
+    }
+    console.log(contTurnos)
     criaPlacar();
     proximoTurno();
 }
@@ -110,23 +114,27 @@ function trocaVisibilidadePalavra() {
     const icon = document.getElementById('btnShowIcon');
     if (txtPalavra.type === 'password') {
         txtPalavra.type = 'text';
-        icon.className = 'fa-solid fa-eye-slash'
+        icon.className = 'fa-solid fa-eye-slash';
     } else {
         txtPalavra.type = 'password';
-        icon.className = 'fa-solid fa-eye'
+        icon.className = 'fa-solid fa-eye';
     }
 }
 
 
 function escolhePalavra2Jog() {
-    const palavraEscolhida = txtPalavra.value;
+    let palavraEscolhida = txtPalavra.value;
     if (palavraEscolhida) {
-        palavra = palavraEscolhida.toUpperCase();
+        palavraEscolhida = palavraEscolhida.toUpperCase();
+        palavraEscolhida = palavraEscolhida.replace(/[ÁÀÃÂÄ]/g,"A");
+        palavraEscolhida = palavraEscolhida.replace(/[ÉÈÊË]/g,"E");
+        palavraEscolhida = palavraEscolhida.replace(/[ÍÌÎÏ]/g,"I");
+        palavraEscolhida = palavraEscolhida.replace(/[ÓÒÕÔÖ]/g,"O");
+        palavraEscolhida = palavraEscolhida.replace(/[ÚÙÛÜ]/g,"U");
+        palavraEscolhida = palavraEscolhida.replace(/[Ç]/g,"C");
+        palavra = palavraEscolhida;
         palavraSelecionada();
         // TODO mandar palavra para txt caso não esteja na lista
-        // if (!palavras.includes(palavra)) {
-        //     palavras.push(palavra);
-        // }
     } else {
         const desisto = "Desisto -.-"
         if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!') {
@@ -147,7 +155,6 @@ function palavraSelecionada() {
     divEscolhePalavra.style.display = 'none';
     divjogoForca.style.display = 'block';
     txtPalavra.value = "";
-    console.log(palavra); // apagar depois
 
     // preenche as lacunas da palavra
     const tamanhoPalavra = palavra.length;
@@ -187,7 +194,6 @@ function clickLetra(letra) {
                 indexes.push(i);
             }
         }
-        console.log(indexes);
         indexes.forEach(index => {
             lacunas = replaceAt(lacunas, index, letra);
         });
@@ -259,6 +265,8 @@ function finalizaTurno() {
     divContinuar.style.display = 'block';
     divLetras.style.display = 'none';
     contTurnos++;
+    localStorage.setItem('contTurnos', contTurnos);
+    console.log(contTurnos)
     localStorage.setItem('scoreJogador1', scoreJogador1);
     if (numJogadores === 2) {
         localStorage.setItem('scoreJogador2', scoreJogador2)

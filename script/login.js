@@ -19,14 +19,21 @@ function changePlayersVisibility() {
 
 function comecar() {
     localStorage.clear();
+    let nomesPreenchidos = true;
     const p1 = txtPlayer1.value;
-    console.log(p1);
+    if (!p1) {
+        nomesPreenchidos = false;
+    }
     localStorage.setItem('jogador1', p1);
     if (jogadores === 2) {
         const p2 = txtPlayer2.value;
-        console.log(p2);
+        if (!p2) {
+            nomesPreenchidos = false;
+        }
         localStorage.setItem('jogador2', p2);
     }
     localStorage.setItem('jogadores', jogadores);
-    location = "jogo.html"
+    if (nomesPreenchidos) {
+        location = "jogo.html"
+    }
 }

@@ -1,25 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Jogo da Forca</title>
+        
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Font Awesome -->
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.css' integrity='sha512-FA9cIbtlP61W0PRtX36P6CGRy0vZs0C2Uw26Q1cMmj3xwhftftymr0sj8/YeezDnRwL9wtWw8ZwtCiTDXlXGjQ==' crossorigin='anonymous'/>
+        
+        <!-- CSS -->
+        <link rel="stylesheet" href="style.css">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo da Forca</title>
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Font Awesome -->
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.css' integrity='sha512-FA9cIbtlP61W0PRtX36P6CGRy0vZs0C2Uw26Q1cMmj3xwhftftymr0sj8/YeezDnRwL9wtWw8ZwtCiTDXlXGjQ==' crossorigin='anonymous'/>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+        <!-- js -->
+        <script src="./script/logout.js"></script>
 </head>
 
 <body class="text-bg-dark text-center">
     <div class="container-md d-grid gap-4">
+        <div id="sair" class="col text-end">
+            <button id="btnSair" class="btn btn-danger" onclick="sair()">
+                Sair
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+        </div>
+
         <div id="placar" class="row text-info g-3 px-3 pb-3"></div>
 
         <h1 class="display-2">Jogo da Forca</h1>
@@ -60,8 +70,8 @@
                 <div class="col mx-auto">
                     <div id="letras" class="row g-3"></div>
                 </div>
-                <div id="divIbagem" class="col">
-                    <img id="imgForca" src="" alt="0" class="img-fluid">
+                <div id="divIbagem" class="col mx-auto">
+                    <img id="imgForca" src="./img/10.png" alt="0" class="img-fluid">
                 </div>
                 <div id="divContinuar" class="col">
                     <button id="btnContinuar" class="btn btn-primary fs-2" onclick="proximoTurno()">Continuar</button>
@@ -70,7 +80,7 @@
         </div>
     </div>
 
-
+    <!-- js -->
     <script src="./script/jogo.js"></script>
 </body>
 
