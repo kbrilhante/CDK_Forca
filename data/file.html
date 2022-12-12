@@ -9,30 +9,21 @@
 </head>
 
 <body>
-    <input type="file" onchange="previewFile()" /><br />
-    <p class="content"></p>
-
+    <button onclick="verify()">Verificar</button>
     <script>
-        function previewFile() {
-            const content = document.querySelector('.content');
-            const [file] = document.querySelector('input[type=file]').files;
-            // console.log("file:", file)
-            const reader = new FileReader();
-            console.info(reader);
-            let text;
-            let array;
-
-            reader.addEventListener("load", () => {
-                // this will then display a text file
-                text = reader.result;
-                array = text.split("\n");
-                content.innerText = array;
-                console.log(array)
-            }, false);
-
-            if (file) {
-                reader.readAsText(file);
-            }
+        const arquivo = 'palavras1.txt'
+        let setPalavras = new Set();
+        async function verify() {
+            const request = await fetch(arquivo);
+            const response = await request.text();
+            const lista = response.split('\n');
+            lista.forEach(item => {
+                let novaPalavra = item.trim()
+                novaPalavra = novaPalavra.toUpperCase();
+                setPalavras.add(novaPalavra)
+            });
+            let palavras = Array.from(setPalavras).join("\n");
+            console.log(palavras);
         }
     </script>
 </body>

@@ -1,5 +1,5 @@
-const textoPalavras = "./data/br-sem-acentos.txt";
-// const textoPalavras = "./data/teste.txt";
+// const textoPalavras = "./data/br-sem-acentos.txt";
+const textoPalavras = "./data/palavras.txt";
 const imgDir = "./img/"
 const divPlacar = document.getElementById("placar");
 const divjogoForca = document.getElementById("jogoForca");
@@ -57,7 +57,7 @@ function criaPlacar() {
     if (numJogadores === 2) {
         criaElementoPlacar(jogador2);
         scoreJogador2 = localStorage.getItem("scoreJogador2");
-        if(!scoreJogador2) {
+        if (!scoreJogador2) {
             scoreJogador2 = 0;
         }
         const h1Jogador1 = document.getElementById('h1' + jogador1);
@@ -125,19 +125,12 @@ function trocaVisibilidadePalavra() {
 function escolhePalavra2Jog() {
     let palavraEscolhida = txtPalavra.value;
     if (palavraEscolhida) {
-        palavraEscolhida = palavraEscolhida.toUpperCase();
-        palavraEscolhida = palavraEscolhida.replace(/[ÁÀÃÂÄ]/g,"A");
-        palavraEscolhida = palavraEscolhida.replace(/[ÉÈÊË]/g,"E");
-        palavraEscolhida = palavraEscolhida.replace(/[ÍÌÎÏ]/g,"I");
-        palavraEscolhida = palavraEscolhida.replace(/[ÓÒÕÔÖ]/g,"O");
-        palavraEscolhida = palavraEscolhida.replace(/[ÚÙÛÜ]/g,"U");
-        palavraEscolhida = palavraEscolhida.replace(/[Ç]/g,"C");
-        palavra = palavraEscolhida;
+        palavra = removeAcentos(palavraEscolhida);
         palavraSelecionada();
         // TODO mandar palavra para txt caso não esteja na lista
     } else {
         const desisto = "Desisto -.-"
-        if (txtPalavra.placeholder === 'Digite aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!') {
+        if (txtPalavra.placeholder.includes('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')) {
             txtPalavra.placeholder = desisto;
         } else if (txtPalavra.placeholder != desisto) {
             txtPalavra.placeholder += '!';
@@ -147,8 +140,19 @@ function escolhePalavra2Jog() {
 
 function escolhePalavra() {
     const rndIndex = Math.floor(Math.random() * palavras.length);
-    palavra = palavras[rndIndex];
+    palavra = removeAcentos(palavras[rndIndex]);
     palavraSelecionada();
+}
+
+function removeAcentos(palavraEscolhida) {
+    palavraEscolhida = palavraEscolhida.toUpperCase();
+    palavraEscolhida = palavraEscolhida.replace(/[ÁÀÃÂÄ]/g, "A");
+    palavraEscolhida = palavraEscolhida.replace(/[ÉÈÊË]/g, "E");
+    palavraEscolhida = palavraEscolhida.replace(/[ÍÌÎÏ]/g, "I");
+    palavraEscolhida = palavraEscolhida.replace(/[ÓÒÕÔÖ]/g, "O");
+    palavraEscolhida = palavraEscolhida.replace(/[ÚÙÛÜ]/g, "U");
+    palavraEscolhida = palavraEscolhida.replace(/[Ç]/g, "C");
+    return palavraEscolhida;
 }
 
 function palavraSelecionada() {
@@ -159,11 +163,29 @@ function palavraSelecionada() {
     // preenche as lacunas da palavra
     const tamanhoPalavra = palavra.length;
     lacunas = "";
-    for (let i = 1; i <= tamanhoPalavra; i++) {
-        lacunas += "_"
+
+    let palavraValida = false;
+    for (let i = 0; i < tamanhoPalavra; i++) {
+        const caractere = palavra.charAt(i)
+        if (letras.includes(caractere)) {
+            lacunas += "_";
+            palavraValida = true;
+        } else {
+            lacunas += caractere;
+        }
     }
-    h1PalavraJogo.textContent = lacunas;
-    escreveBotoes();
+
+    if (tamanhoPalavra > 20) {
+        palavraValida = false;
+    }
+
+    if (palavraValida) {
+        h1PalavraJogo.textContent = lacunas;
+        escreveBotoes();
+    } else {
+        txtPalavra.placeholder = "Digite uma palavra válida";
+        proximoTurno();
+    }
 }
 
 function escreveBotoes() {

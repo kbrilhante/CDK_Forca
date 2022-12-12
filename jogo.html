@@ -5,8 +5,8 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Jogo da Forca</title>
-        <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+        <title>Jogo da Forca - Códigos da Kah</title>
+        <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
         
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
@@ -16,6 +16,7 @@
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.css' integrity='sha512-FA9cIbtlP61W0PRtX36P6CGRy0vZs0C2Uw26Q1cMmj3xwhftftymr0sj8/YeezDnRwL9wtWw8ZwtCiTDXlXGjQ==' crossorigin='anonymous'/>
         
         <!-- CSS -->
+        <link rel="stylesheet" href="../../css/topBar.css">
         <link rel="stylesheet" href="style.css">
 
         <!-- js -->
@@ -24,6 +25,7 @@
 
 <body class="text-bg-dark text-center">
     <div class="container-md d-grid gap-4">
+        <div class="topBar"></div>
         <div id="sair" class="col text-end">
             <button id="btnSair" class="btn btn-danger" onclick="sair()">
                 Sair
@@ -82,6 +84,7 @@
     </div>
 
     <!-- js -->
+    <script src="../../script/topBar.js"></script>
     <script src="./script/jogo.js"></script>
 </body>
 
