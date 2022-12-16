@@ -11,7 +11,7 @@
 <body>
     <button onclick="verify()">Verificar</button>
     <script>
-        const arquivo = 'palavras1.txt'
+        const arquivo = 'palavras.txt'
         let setPalavras = new Set();
         async function verify() {
             const request = await fetch(arquivo);
@@ -22,7 +22,7 @@
                 novaPalavra = novaPalavra.toUpperCase();
                 setPalavras.add(novaPalavra)
             });
-            let palavras = Array.from(setPalavras).join("\n");
+            let palavras = Array.from(setPalavras).sort().join("\n");
             console.log(palavras);
         }
     </script>
